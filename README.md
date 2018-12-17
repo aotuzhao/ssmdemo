@@ -1,7 +1,7 @@
 # ssmdemo
-### SpringBoot
-### Maven
-### SpringMVC
-### Spring
-### MyBatis
-### MySQL
+- SpringBoot
+- Maven
+- SpringMVC
+- Spring
+- MyBatis
+- MySQL
