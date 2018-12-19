@@ -9,38 +9,28 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @Author aotu
- * @Date 2018/12/19 17:38
- * @Description: 普通用户
+ * @Date 2018/12/19 20:23
+ * @Description: 管理员
  */
 @Data
-@Table(name = "cf_user")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+@Table(name = "cf_admin")
+public class Admin implements Serializable {
 
     @Id
     @KeySql(useGeneratedKeys = true)
     private Integer id;
-
-    private String phone;
-    private String password;
-    private String salt;
-    private String headImg;
     private String name;
-    private String sex;
-    private String province;
-    private String city;
+    private String password;
     private Integer status;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JSONField(format = "yyyy-MM-dd")
-    private Date regDate;
-    @Transient
-    private Guru guru;
 
+    @JSONField(format = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
 }

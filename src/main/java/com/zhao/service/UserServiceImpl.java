@@ -3,8 +3,10 @@ package com.zhao.service;
 import com.zhao.entity.User;
 import com.zhao.mapper.UserMapper;
 import com.zhao.util.Md5Util;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
  */
 
 @Service
+@Log4j
 @Transactional
 public class UserServiceImpl implements UserService {
 
@@ -24,15 +27,29 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<User> queryAllPage(int page, int row) {
 
         return null;
     }
 
     @Override
-    public User loginOne(String phone) {
-
-        return null;
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public User loginOne(User user) {
+        User example = new User();
+        example.setPhone(user.getPhone());
+        User user1 = userMapper.selectOne(example);
+        if (user1 == null) {
+            throw new RuntimeException("用户不存在！");
+        }
+        String salt = user1.getSalt();
+        String password = user.getPassword() + salt;
+        log.debug(user.toString());
+        log.debug(salt);
+        if (!Md5Util.checkPassword(password, user1.getPassword())) {
+            throw new RuntimeException("密码错误！");
+        }
+        return user1;
     }
 
     @Override

@@ -26,7 +26,7 @@ public interface UserService {
      * @Date 2018/12/19 17:51
      * @Param phone 用户账户
      **/
-    User loginOne(String phone);
+    User loginOne(User user);
 
     /**
      * @return 无

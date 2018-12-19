@@ -8,11 +8,11 @@
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <link rel="icon" href="${pageContext.request.contextPath}/img/favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" type="text/css"></link>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" type="text/css"></link>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/script/jquery.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/script/common.js"></script>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="css/common.css" type="text/css"></link>
+    <link rel="stylesheet" href="css/login.css" type="text/css"></link>
+    <script type="text/javascript" src="script/jquery.js"></script>
+    <script type="text/javascript" src="script/common.js"></script>
     <script type="text/javascript">
 
         $(function () {
@@ -32,7 +32,7 @@
 <body>
 
 <div class="login">
-    <form id="loginForm" action="${pageContext.request.contextPath}/admin/login" method="post">
+    <form id="loginForm" action="${pageContext.request.contextPath}/user/login" method="post">
 
         <table>
             <tbody>

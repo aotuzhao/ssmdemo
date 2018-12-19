@@ -96,7 +96,7 @@ public class CreateValidateCode {
         return str2;
     }
 
-    private Color getRandColor(int fc, int bc) {// ������Χ��������ɫ
+    private Color getRandColor(int fc, int bc) {
         if (fc > 255) {
 
             fc = 255;

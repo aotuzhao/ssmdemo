@@ -1,6 +1,7 @@
 package com.zhao;
 
 import com.zhao.entity.User;
+import com.zhao.mapper.UserMapper;
 import com.zhao.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,9 @@ public class DemoApplicationTests {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserMapper userMapper;
+
     @Test
     public void testReg() {
         User user = new User();
@@ -23,6 +27,13 @@ public class DemoApplicationTests {
         userService.regUser(user);
     }
 
+    @Test
+    public void testSel() {
+        User user = new User();
+        user.setCity("ss");
+        user.setProvince("ss");
+        userMapper.selectOne(user);
+    }
 
 }
 
