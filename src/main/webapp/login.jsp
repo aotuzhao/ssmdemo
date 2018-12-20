@@ -16,7 +16,7 @@
     <script type="text/javascript">
 
         $(function () {
-            //点击更换验证码：
+            //点击更换验证码：test
             $("#captchaImage").click(function () {//点击更换验证码
                 $("#captchaImage").prop("src", "${pageContext.request.contextPath}/user/code?time-'+(new Date()).getTime()");
             });
