@@ -21,11 +21,6 @@
                 $("#captchaImage").prop("src", "${pageContext.request.contextPath}/user/code?time-'+(new Date()).getTime()");
             });
 
-            /*//  form 表单提交
-            $("#loginForm").bind("submit", function () {
-                alert("自己做");
-                return false;
-            });*/
         });
     </script>
 </head>
