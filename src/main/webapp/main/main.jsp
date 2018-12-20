@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/icon.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/datagrid-detailview.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.edatagrid.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript">
         <!--菜单处理-->
@@ -46,7 +48,7 @@
                         title: obj.text,
                         closable: true,
                         iconCls: obj.iconCls,
-                        href: "${pageContext.request.contextPath}/main/" + obj.href
+                        href: "${pageContext.request.contextPath}/" + obj.href
                     });
                 }
 

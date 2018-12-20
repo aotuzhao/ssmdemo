@@ -24,6 +24,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CreateValidateCode vCode;
+
     @RequestMapping("/login")
     public String login(User user, String code, Model model, HttpSession session) {
         String sessionCode = (String) session.getAttribute("code");
@@ -46,7 +49,7 @@ public class UserController {
     @RequestMapping("/code")
     @ResponseBody
     public void createCode(HttpSession session, HttpServletResponse response) throws Exception {
-        CreateValidateCode vCode = new CreateValidateCode(100, 25, 4, 10);
+        // CreateValidateCode vCode = new CreateValidateCode(100, 25, 4, 10);
         session.setAttribute("code", vCode.getCode());
         vCode.write(response.getOutputStream());
     }

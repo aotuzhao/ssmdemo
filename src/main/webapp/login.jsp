@@ -39,7 +39,7 @@
                     用户名:
                 </th>
                 <td>
-                    <input type="text" name="phone" class="text" value="手机号" maxlength="20"/>
+                    <input type="text" name="phone" class="text" placeholder="root" maxlength="20"/>
                 </td>
             </tr>
             <tr>

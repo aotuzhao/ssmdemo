@@ -17,6 +17,9 @@ spring:
     encoding:
       charset: UTF-8
       force: true
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 2MB
 mybatis:
   mapper-locations: classpath:/mapper/*Mapper.xml
   type-aliases-package: com.zhao.entity
