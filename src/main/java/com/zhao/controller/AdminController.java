@@ -25,7 +25,7 @@ public class AdminController {
     @RequestMapping("/login")
     public String login(Admin admin, HttpSession session, String code, Model model) {
         String sessionCode = (String) session.getAttribute("code");
-        if (!sessionCode.equals(code.toLowerCase())) {
+        if (!sessionCode.equalsIgnoreCase(code)) {
             model.addAttribute("error", "验证码错误！");
             return "login";
         } else {

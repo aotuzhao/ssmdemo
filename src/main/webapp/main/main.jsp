@@ -21,7 +21,7 @@
 
                     $("#aa").accordion("add", {
                         title: mm.text,
-                        iconCls: "icon-large-clipart",
+                        iconCls: mm.iconCls,
                         content: "<div><ul id='tree" + mm.id + "'></ul></div>",
 
                     });
@@ -31,13 +31,11 @@
                         queryParams: {"parentId": mm.id},
                         animate: true,
                         onClick: function (node) {
-
                             if ($("#tt").tabs("exists", node.text)) {
                                 $("#tt").tabs("select", node.text);
                             } else {
                                 addTabs(node);
                             }
-
                         }
                     });
 
@@ -78,9 +76,6 @@
 
 <div id="menu" data-options="region:'west',title:'导航菜单',split:true" style="width:220px;">
     <div id="aa" class="easyui-accordion" data-options="fit:true">
-        <div title="首页" data-options="iconCls:'icon-save',selected:true">
-            欢迎使用！
-        </div>
 
     </div>
 </div>
