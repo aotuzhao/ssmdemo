@@ -29,10 +29,18 @@ public class AdminController {
             model.addAttribute("error", "验证码错误！");
             return "login";
         } else {
-            adminService.loginAdmin(admin);
+            Admin root = adminService.loginAdmin(admin);
+            session.setAttribute("user", root);
             return "main/main";
         }
 
     }
+
+    @RequestMapping("logOut")
+    public String logOut(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/login.jsp";
+    }
+
 
 }

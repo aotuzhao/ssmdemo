@@ -38,7 +38,7 @@
             <tbody>
             <tr>
                 <td width="190" rowspan="2" align="center" valign="bottom">
-                    <img src="img/header_logo.gif"/>
+                    <img src="${pageContext.request.contextPath}/img/header_logo.gif"/>
                 </td>
                 <th>
                     用户名:

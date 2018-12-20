@@ -1,4 +1,6 @@
 server:
   port: 8888
-
+  jsp-servlet:
+    init-parameters:
+      development: true
 
