@@ -1,5 +1,6 @@
 package com.zhao.service;
 
+import com.github.pagehelper.PageHelper;
 import com.zhao.entity.Banner;
 import com.zhao.entity.BannerTDO;
 import com.zhao.mapper.BannerMapper;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -24,8 +27,10 @@ public class BannerServiceImpl implements BannerService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public BannerTDO queryPage(int page, int rows) {
         BannerTDO bannerTDO = new BannerTDO();
+        PageHelper.startPage(page, rows);
+        List<Banner> list = bannerMapper.selectAll();
         bannerTDO.setTotal(bannerMapper.selectCount(null));
-        bannerTDO.setRows(bannerMapper.queryPage(page, rows));
+        bannerTDO.setRows(list);
         return bannerTDO;
     }
 

@@ -42,9 +42,6 @@ public class BannerController {
 
     @RequestMapping("/addOne")
     public String addOne(Banner banner, MultipartFile img, HttpSession session) throws Exception {
-        System.out.println(img.getName());
-        System.out.println(img.getContentType());
-        System.out.println(img.getOriginalFilename());
         String imgName = System.currentTimeMillis() + img.getOriginalFilename();
         String realPath = session.getServletContext().getRealPath("/img");
         File to = new File(realPath + "/" + imgName);
