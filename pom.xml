@@ -35,6 +35,12 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.10</version>
         </dependency>
+        <!--音频插件-->
+        <dependency>
+            <groupId>jave</groupId>
+            <artifactId>jave</artifactId>
+            <version>1.0.2</version>
+        </dependency>
         <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -84,6 +90,15 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
