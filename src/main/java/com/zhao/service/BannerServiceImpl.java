@@ -52,4 +52,9 @@ public class BannerServiceImpl implements BannerService {
         banner.setStatus("n");
         bannerMapper.insertSelective(banner);
     }
+
+    @Override
+    public List<Banner> exportAll() {
+        return bannerMapper.selectAll();
+    }
 }

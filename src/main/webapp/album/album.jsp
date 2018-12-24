@@ -10,22 +10,30 @@
         iconCls: 'icon-add',
         text: "专辑详情",
         handler: function () {
-
-            var node = $("#album").treegrid("getSelected");
-            if (node != null) {
-                $("#album_detail").dialog({
-                    title: '专辑详情',
-                    width: 400,
-                    height: 200,
-                    closed: false,
-                    cache: false,
-                    href: '${pageContext.request.contextPath}/album/detail.jsp?id=' + node.id,
-                    modal: true
-                })
-
-            } else {
-                showMessage("请选择专辑!");
+            var row = $("#album").treegrid("getSelected")
+            if (row != null) {
+                if (row.duration == null) {
+                    //打开dialog
+                    $("#album_dialog").dialog("open")
+                    $("#album_from").form("load", row)
+                    $("#coverImg").prop("src", "${pageContext.request.contextPath}/album/image/" + row.coverImg)
+                }
             }
+            /* var node = $("#album").treegrid("getSelected");
+             if (node != null) {
+                 $("#album_detail").dialog({
+                     title: '专辑详情',
+                     width: 400,
+                     height: 200,
+                     closed: false,
+                     cache: false,
+                     href: '/album/detail.jsp?album=' + node,
+                     modal: true
+                 })
+
+             } else {
+                 showMessage("请选择专辑!");
+             }*/
         }
     }, '-', {
         text: "添加专辑",
@@ -68,14 +76,19 @@
         handler: function () {
             var node = $("#album").treegrid("getSelected");
             if (node != null) {
+                location.href = "${pageContext.request.contextPath}/chapter/downLoad?url=" + node.url + "&title=" + node.title;
 
-                $.get("${pageContext.request.contextPath}/chapter/downLoad", "url=" + node.url, function () {
-                })
 
             } else {
                 showMessage("请选择音频!");
             }
 
+        }
+    }, '-', {
+        text: "导出数据",
+        iconCls: 'icon-print',
+        handler: function () {
+            location.href = "${pageContext.request.contextPath}/album/export";
         }
     }];
     $(function () {
@@ -117,9 +130,8 @@
             onDblClickRow: function (row) {
                 if (row.url != null) {
 
-                    var path = "${pageContext.request.contextPath}/chapter/audio/" + row.url;
-                    var audio = new Audio(path);
-                    audio.play();
+                    $("#audio_dialog").dialog("open")
+                    $("#audio_url").prop("src", "${pageContext.request.contextPath}/chapter/audio/" + row.url)
                 }
 
             }
@@ -142,3 +154,71 @@
 <div id="album_detail"></div>
 <div id="album_add"></div>
 <div id="chapter_add"></div>
+<div id="audio_dialog" class="easyui-dialog" title="播放" style="width:400px;height:200px;"
+     data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+    <audio id="audio_url" src="" controls="controls" autoplay="autoplay">
+
+    </audio>
+</div>
+<div id="album_dialog" class="easyui-dialog" title="专辑详情" style="width:400px;height:200px;"
+     data-options="iconCls:'icon-save',resizable:true,modal:true,closed:true">
+
+
+    <form id="album_from">
+        <table>
+            <tr>
+                <td>名称：</td>
+                <td>
+                    <input type="text" name="title" disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td>封面：</td>
+                <td>
+                    <input type="text" name="coverImg" disabled="disabled"/>
+                    <img id="coverImg" style="height:50px;"/>
+                </td>
+            </tr>
+            <tr>
+                <td>作者：</td>
+                <td>
+                    <input type="text" name="author" disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td>播音：</td>
+                <td>
+                    <input type="text" name="broadcast" disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td>集数：</td>
+                <td>
+                    <input type="text" name="count" disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td>评分：</td>
+                <td>
+                    <input type="text" name="score" disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td>简介：</td>
+                <td>
+                    <input type="text" name="brief" disabled="disabled"/>
+                </td>
+            </tr>
+            <tr>
+                <td>创建时间：</td>
+                <td>
+                    <input type="text" name="pubDate" disabled="disabled"/>
+                </td>
+            </tr>
+
+        </table>
+
+
+    </form>
+
+</div>

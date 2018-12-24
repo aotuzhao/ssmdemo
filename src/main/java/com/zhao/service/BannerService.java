@@ -3,6 +3,8 @@ package com.zhao.service;
 import com.zhao.entity.Banner;
 import com.zhao.entity.BannerTDO;
 
+import java.util.List;
+
 /**
  * @author aotu
  * @date 2018/12/20 12:55
@@ -47,4 +49,13 @@ public interface BannerService {
      * @date 2018/12/20 16:43
      **/
     void addOne(Banner banner);
+
+    /**
+     * 导出数据
+     *
+     * @return 轮播图
+     * @author aotu
+     * @date 2018/12/24 19:14
+     **/
+    List<Banner> exportAll();
 }

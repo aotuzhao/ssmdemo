@@ -5,6 +5,7 @@ import com.zhao.service.ChapterService;
 import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.MultimediaInfo;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.net.URLEncoder;
 
 /**
  * @author aotu
@@ -37,7 +39,6 @@ public class ChapterController {
         audio.transferTo(to);
         Encoder encoder = new Encoder();
         MultimediaInfo m = encoder.getInfo(to);
-
         long ls = m.getDuration();
         int minute = (int) (ls / 1000) / 60;
         int sounds = (int) (ls / 1000) % 60;
@@ -53,10 +54,13 @@ public class ChapterController {
     }
 
     @RequestMapping("/downLoad")
-    public void downLoad(String url, HttpServletResponse response, HttpSession session) throws Exception {
+    public void downLoad(String url, String title, HttpServletResponse response, HttpSession session) throws Exception {
         String filePath = session.getServletContext().getRealPath("/chapter/audio");
-        byte[] bytes = FileUtils.readFileToByteArray(new File(filePath + "/" + url));
-        response.setHeader("content-disposition", "attachment;filename=" + url);
+        File file = new File(filePath + "/" + url);
+        String extension = FilenameUtils.getExtension(url);
+        byte[] bytes = FileUtils.readFileToByteArray(file);
+        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(title + "." + extension, "UTF-8"));
+        response.setContentType("audio/mpeg");
         ServletOutputStream outputStream = response.getOutputStream();
         outputStream.write(bytes);
         outputStream.flush();

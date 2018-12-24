@@ -55,4 +55,17 @@ public class AlbumServiceImpl implements AlbumService {
     public void addOne(Album album) {
         albumMapper.insertSelective(album);
     }
+
+    @Override
+    public AlbumDTO showAll(int page, int rows) {
+        return null;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Album> exportAlbum() {
+        return albumMapper.exportAll();
+    }
+
+
 }

@@ -57,6 +57,13 @@
                 showMessage("更新成功！");
 
             }
+        }, '-', {
+            text: "导出数据",
+            iconCls: 'icon-print',
+            handler: function () {
+                location.href = "${pageContext.request.contextPath}/banner/export";
+
+            }
         }]
 
         $("#banner_tab").edatagrid({
