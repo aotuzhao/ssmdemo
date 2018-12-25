@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.zhao.entity.Album;
 import com.zhao.entity.Chapter;
@@ -22,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,11 +49,11 @@ public class DemoApplicationTests {
         ImportParams params = new ImportParams();
         params.setTitleRows(1);
         params.setHeadRows(2);
-        long start = new Date().getTime();
         List<Album> objects = ExcelImportUtil.importExcel(new File(filePath), Album.class, params);
         for (Album object : objects) {
             System.out.println(object);
         }
+        System.out.println(JSON.toJSONString(objects));
     }
 
 

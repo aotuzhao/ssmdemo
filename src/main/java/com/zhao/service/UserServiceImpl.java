@@ -1,14 +1,21 @@
 package com.zhao.service;
 
+import com.github.pagehelper.PageHelper;
 import com.zhao.entity.User;
+import com.zhao.entity.UserDTO;
+import com.zhao.entity.UserMap;
 import com.zhao.mapper.UserMapper;
 import com.zhao.util.Md5Util;
 import lombok.extern.log4j.Log4j;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,11 +33,34 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private SqlSessionTemplate sessionTemplate;
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public List<User> queryAllPage(int page, int row) {
+    public UserDTO queryAllPage(int page, int row) {
+        UserDTO dto = new UserDTO();
+        PageHelper.startPage(page, row);
+        List<User> list = userMapper.selectAll();
+        dto.setTotal(userMapper.selectCount(new User()));
+        dto.setRows(list);
+        return dto;
+    }
 
-        return null;
+    @Override
+    public List<User> exportAll() {
+        return userMapper.selectAll();
+    }
+
+    @Override
+    public void importUser(List<User> list) {
+        SqlSession sqlSession = sessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+        userMapper = sqlSession.getMapper(UserMapper.class);
+        for (User user : list) {
+            userMapper.insertSelective(user);
+        }
+        sqlSession.commit();
+        sqlSession.clearCache();
+
     }
 
     @Override
@@ -67,4 +97,38 @@ public class UserServiceImpl implements UserService {
         userMapper.insert(user);
 
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<UserMap> queryUser(String sex) {
+        return userMapper.queryUser(sex);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Integer> countSexReg(String sex) {
+        List<Integer> list = new ArrayList<>();
+        list.add(userMapper.countSexReg(sex, 7));
+        list.add(userMapper.countSexReg(sex, 15));
+        list.add(userMapper.countSexReg(sex, 30));
+        list.add(userMapper.countSexReg(sex, 90));
+        list.add(userMapper.countSexReg(sex, 180));
+        list.add(userMapper.countSexReg(sex, 365));
+        return list;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public List<Integer> countAllReg() {
+        List<Integer> list = new ArrayList<>();
+        list.add(userMapper.countAllReg(7));
+        list.add(userMapper.countAllReg(15));
+        list.add(userMapper.countAllReg(30));
+        list.add(userMapper.countAllReg(90));
+        list.add(userMapper.countAllReg(180));
+        list.add(userMapper.countAllReg(365));
+        return list;
+    }
+
+
 }
