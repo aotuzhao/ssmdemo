@@ -6,6 +6,9 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.zhao.entity.Album;
 import com.zhao.entity.Chapter;
 import com.zhao.entity.User;
@@ -21,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -41,6 +45,25 @@ public class DemoApplicationTests {
 
     @Autowired
     AlbumMapper albumMapper;
+
+    @Autowired
+    FastFileStorageClient fastFileStorageClient;
+
+    @Test
+    public void testFastdfs() throws IOException {
+        File file = new File("D:/1.jpg");
+        StorePath path = fastFileStorageClient.uploadFile(new FileInputStream(file), file.length(), "jpg", null);
+        System.out.println(path.getFullPath());
+    }
+
+    @Test
+    public void testDown() throws IOException {
+        byte[] bytes = fastFileStorageClient.downloadFile("group1", "M00/00/00/wKhuiFwjs32AGRCcAAADymVFWWw908.jpg", new DownloadByteArray());
+        // fastFileStorageClient.deleteFile("group1","M00/00/00/wKhuiFwjsZGAPkYXAAADymVFWWw298.jsp");
+        FileOutputStream fileOutputStream = new FileOutputStream(new File("D:/2.jpg"));
+        fileOutputStream.write(bytes);
+        fileOutputStream.close();
+    }
 
 
     @Test

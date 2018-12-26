@@ -1,26 +1,43 @@
 server:
+  #项目名
   context-path: /SpringBoot
 spring:
+  #配置数据源
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/cmfz?characterEncoding=UTF-8
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
+  #前端控制器
   mvc:
     view:
       suffix: .jsp
       prefix: /
+  #拆分配置文件
   profiles:
     active: dev
+  #编码过滤器
   http:
     encoding:
       charset: UTF-8
       force: true
+    #文件上传下载
     multipart:
       max-file-size: 2MB
       max-request-size: 2MB
+#别名和mapper文件扫描
 mybatis:
   mapper-locations: classpath:/mapper/*Mapper.xml
   type-aliases-package: com.zhao.entity
-
+#fastDfs文件管理系统
+fdfs:
+  so-timeout: 1501
+  connect-timeout: 601
+  #图片缩略图
+  thumb-image:
+    width: 150
+    height: 150
+  #追踪器列表
+  tracker-list:
+    - 192.168.110.136:22122
