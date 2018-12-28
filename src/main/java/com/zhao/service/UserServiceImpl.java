@@ -1,5 +1,6 @@
 package com.zhao.service;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.github.pagehelper.PageHelper;
 import com.zhao.entity.User;
 import com.zhao.entity.UserDTO;
@@ -7,8 +8,6 @@ import com.zhao.entity.UserMap;
 import com.zhao.mapper.UserMapper;
 import com.zhao.util.Md5Util;
 import lombok.extern.log4j.Log4j;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +34,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SqlSessionTemplate sessionTemplate;
+
+    @Autowired
+    DruidDataSource druidDataSource;
+
+
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public UserDTO queryAllPage(int page, int row) {
@@ -53,13 +57,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void importUser(List<User> list) {
-        SqlSession sqlSession = sessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
+        /*SqlSession sqlSession = sessionTemplate.getSqlSessionFactory().openSession(ExecutorType.BATCH, false);
         userMapper = sqlSession.getMapper(UserMapper.class);
         for (User user : list) {
             userMapper.insertSelective(user);
         }
         sqlSession.commit();
-        sqlSession.clearCache();
+        sqlSession.clearCache();*/
+        for (User user : list) {
+            userMapper.insertSelective(user);
+        }
 
     }
 
@@ -99,13 +106,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<UserMap> queryUser(String sex) {
         return userMapper.queryUser(sex);
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Integer> countSexReg(String sex) {
         List<Integer> list = new ArrayList<>();
         list.add(userMapper.countSexReg(sex, 7));
@@ -118,7 +123,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Integer> countAllReg() {
         List<Integer> list = new ArrayList<>();
         list.add(userMapper.countAllReg(7));

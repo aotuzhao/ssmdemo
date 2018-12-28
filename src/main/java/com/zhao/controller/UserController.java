@@ -4,11 +4,14 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.alibaba.fastjson.JSON;
 import com.zhao.entity.User;
 import com.zhao.entity.UserDTO;
 import com.zhao.entity.UserMap;
 import com.zhao.service.UserService;
 import com.zhao.util.CreateValidateCode;
+import com.zhao.util.GoEasyUtil;
+import io.goeasy.GoEasy;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +42,7 @@ public class UserController {
     @Autowired
     private CreateValidateCode vCode;
 
+
     @RequestMapping("/login")
     public String login(User user, String code, Model model, HttpSession session) {
         String sessionCode = (String) session.getAttribute("code");
@@ -55,6 +59,9 @@ public class UserController {
     @RequestMapping("/regUser")
     public String regUser(User user) {
         userService.regUser(user);
+        GoEasy goEasy = GoEasyUtil.getInstance();
+        goEasy.publish("countMan", JSON.toJSONString(userService.queryUser("男")));
+        goEasy.publish("countSex", JSON.toJSONString(userService.queryUser("女")));
         return "login";
     }
 
@@ -88,13 +95,22 @@ public class UserController {
     @RequestMapping("/import")
     @ResponseBody
     public String implortAll(MultipartFile user) {
-
         ImportParams params = new ImportParams();
         params.setTitleRows(1);
         params.setHeadRows(1);
         try {
             List<User> list = ExcelImportUtil.importExcel(user.getInputStream(), User.class, params);
             userService.importUser(list);
+            GoEasy goEasy = GoEasyUtil.getInstance();
+            List<UserMap> list1 = userService.queryUser("男");
+            goEasy.publish("countMan", JSON.toJSONString(list1));
+            goEasy.publish("countSex", JSON.toJSONString(userService.queryUser("女")));
+            Map<String, List<Integer>> map = new HashMap<>();
+            map.put("man", userService.countSexReg("男"));
+            map.put("female", userService.countSexReg("女"));
+            map.put("allUser", userService.countAllReg());
+            goEasy.publish("countReg", JSON.toJSONString(map));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -109,7 +125,7 @@ public class UserController {
 
     @RequestMapping("/countReg")
     @ResponseBody
-    public Map<String, List<Integer>> countSexReg(String sex) {
+    public Map<String, List<Integer>> countSexReg() {
         Map<String, List<Integer>> map = new HashMap<>();
         map.put("man", userService.countSexReg("男"));
         map.put("female", userService.countSexReg("女"));

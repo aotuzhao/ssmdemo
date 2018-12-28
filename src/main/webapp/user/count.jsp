@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/echarts.min.js"></script>
+
 
 <div id="user_count" style="width: 80%;height:90%;margin: 10px auto">
 </div>
@@ -42,7 +42,32 @@
                 }]
             });
         }, "json");
-
+        var goEasy = new GoEasy({
+            appkey: "BC-6672cd4d416c4980b3921e3f24d341cd"
+        });
+        goEasy.subscribe({
+            channel: "countReg",
+            onMessage: function (message) {
+                //console.log( message.content);
+                var data = eval("(" + message.content + ")");
+                //console.log(data.man);
+                userChart.setOption({
+                    series: [{
+                        name: '男',
+                        type: 'bar',
+                        data: data.man
+                    }, {
+                        name: '女',
+                        type: 'bar',
+                        data: data.female
+                    }, {
+                        name: '不限',
+                        type: 'bar',
+                        data: data.allUser
+                    }]
+                });
+            }
+        });
 
     })
 

@@ -16,6 +16,7 @@ import com.zhao.mapper.AlbumMapper;
 import com.zhao.mapper.ChapterMapper;
 import com.zhao.mapper.UserMapper;
 import com.zhao.service.UserService;
+import io.goeasy.GoEasy;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,9 +51,24 @@ public class DemoApplicationTests {
     FastFileStorageClient fastFileStorageClient;
 
     @Test
+    public void testGoEasy() {
+        GoEasy goEasy = new GoEasy("http://rest-hangzhou.goeasy.io", "BC-6672cd4d416c4980b3921e3f24d341cd");
+        goEasy.publish("test1", "hehehehhehehhe");
+    }
+
+    @Test
     public void testFastdfs() throws IOException {
         File file = new File("D:/1.jpg");
+        File file2 = new File("D:/2.jpg");
+        File file3 = new File("D:/3.jpg");
+        File file4 = new File("D:/3.jpg");
         StorePath path = fastFileStorageClient.uploadFile(new FileInputStream(file), file.length(), "jpg", null);
+        StorePath path1 = fastFileStorageClient.uploadFile(new FileInputStream(file2), file.length(), "jpg", null);
+        StorePath path2 = fastFileStorageClient.uploadFile(new FileInputStream(file3), file.length(), "jpg", null);
+        StorePath path3 = fastFileStorageClient.uploadFile(new FileInputStream(file4), file.length(), "jpg", null);
+        System.out.println(path1.getFullPath());
+        System.out.println(path2.getFullPath());
+        System.out.println(path3.getFullPath());
         System.out.println(path.getFullPath());
     }
 

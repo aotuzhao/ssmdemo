@@ -97,7 +97,7 @@
             view: detailview,
             detailFormatter: function (rowIndex, rowData) {
                 return '<table><tr>' +
-                    '<td rowspan=2 style="border:0"><img src="${pageContext.request.contextPath}/img/' + rowData.img_path + '" style="height:50px;"></td>' +
+                    '<td rowspan=2 style="border:0"><img src="http://192.168.110.138/' + rowData.img_path + '" style="height:50px;"></td>' +
                     '<td style="border:0">' +
                     '<p>描述: ' + rowData.description + '</p>' +
                     '<p>日期: ' + rowData.pub_date + '</p>' +

@@ -1,5 +1,7 @@
 package com.zhao.controller;
 
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.zhao.entity.Chapter;
 import com.zhao.service.ChapterService;
 import it.sauronsoftware.jave.Encoder;
@@ -29,27 +31,42 @@ public class ChapterController {
     @Autowired
     private ChapterService chapterService;
 
+    @Autowired
+    FastFileStorageClient fastFileStorageClient;
 
     @RequestMapping("/addOne")
     @ResponseBody
-    public String addOne(Chapter chapter, MultipartFile audio, HttpSession session) throws Exception {
-        String audioName = System.currentTimeMillis() + audio.getOriginalFilename();
-        String filePath = session.getServletContext().getRealPath("/chapter/audio");
-        File to = new File(filePath + "/" + audioName);
-        audio.transferTo(to);
-        Encoder encoder = new Encoder();
-        MultimediaInfo m = encoder.getInfo(to);
-        long ls = m.getDuration();
-        int minute = (int) (ls / 1000) / 60;
-        int sounds = (int) (ls / 1000) % 60;
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(minute + ":");
-        stringBuilder.append(sounds);
-        chapter.setDuration(stringBuilder.toString());
-        int size = (int) (audio.getSize() / (1024 * 1024));
-        chapter.setSize(size);
-        chapter.setUrl(audioName);
-        chapterService.addChapter(chapter);
+    public String addOne(Chapter chapter, MultipartFile audio, HttpSession session) {
+        //String audioName = System.currentTimeMillis() + audio.getOriginalFilename();
+        //String filePath = session.getServletContext().getRealPath("/chapter/audio");
+        String extension = FilenameUtils.getExtension(audio.getOriginalFilename());
+        //File to = new File(filePath + "/" + audioName);
+        File tmp = null;
+        try {
+            tmp = File.createTempFile("tmp", extension);
+            audio.transferTo(tmp);
+            StorePath storePath = fastFileStorageClient.uploadFile(audio.getInputStream(), audio.getSize(), extension, null);
+            Encoder encoder = new Encoder();
+            MultimediaInfo m = encoder.getInfo(tmp);
+            long ls = m.getDuration();
+            int minute = (int) (ls / 1000) / 60;
+            int sounds = (int) (ls / 1000) % 60;
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(minute + ":");
+            stringBuilder.append(sounds);
+            chapter.setDuration(stringBuilder.toString());
+            int size = (int) (audio.getSize() / (1024 * 1024));
+            chapter.setSize(size);
+            chapter.setUrl(storePath.getFullPath());
+            chapterService.addChapter(chapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (tmp != null) {
+                tmp.deleteOnExit();
+            }
+        }
+        //audio.transferTo(to);
         return "添加成功！";
     }
 

@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/echarts.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/china.js"></script>
 
 <div id="user_map" style="width: 95%;height:90%;margin: 10px auto">
 </div>
+
 <script type="text/javascript">
+
     var userChart = echarts.init(document.getElementById("user_map"));
     var time = new Date();
     var date = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
@@ -78,7 +78,9 @@
 
     userChart.setOption(option);
     $(function () {
-
+        var goEasy = new GoEasy({
+            appkey: "BC-6672cd4d416c4980b3921e3f24d341cd"
+        });
         $.post("${pageContext.request.contextPath}/user/countSex", "sex=男", function (data) {
             userChart.setOption({
                 series: [{
@@ -118,6 +120,56 @@
                 }]
             });
         }, "json");
+
+
+        goEasy.subscribe({
+            channel: "countSex",
+            onMessage: function (message) {
+                var data = eval("(" + message.content + ")");
+                userChart.setOption({
+                    series: [{
+                        name: '女',
+                        type: 'map',
+                        mapType: 'china',
+                        roam: true,
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        data: data
+                    }]
+                });
+            }
+        });
+        goEasy.subscribe({
+            channel: "countMan",
+            onMessage: function (message) {
+
+                var data = eval("(" + message.content + ")");
+                userChart.setOption({
+                    series: [{
+                        name: '男',
+                        type: 'map',
+                        mapType: 'china',
+                        roam: true,
+                        label: {
+                            normal: {
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        data: data
+                    }]
+                });
+            }
+        });
+
     });
 
 </script>
