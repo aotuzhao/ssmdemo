@@ -61,4 +61,14 @@ public interface AlbumService {
      * @date 2018/12/24 18:12
      **/
     List<Album> exportAlbum();
+
+    /**
+     * 接口
+     *
+     * @param id 标识
+     * @return 专辑
+     * @author aotu
+     * @date 2018/12/29 15:47
+     **/
+    Album getOne(int id);
 }

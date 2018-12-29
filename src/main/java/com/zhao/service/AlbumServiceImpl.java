@@ -67,5 +67,10 @@ public class AlbumServiceImpl implements AlbumService {
         return albumMapper.exportAll();
     }
 
+    @Override
+    public Album getOne(int id) {
+        return albumMapper.getOne(id);
+    }
+
 
 }

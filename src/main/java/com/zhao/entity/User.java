@@ -58,5 +58,6 @@ public class User implements Serializable {
     @Transient
     @ExcelIgnore
     private Guru guru;
+    private Integer dharme_id;
 
 }

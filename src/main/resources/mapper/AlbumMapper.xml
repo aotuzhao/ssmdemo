@@ -30,6 +30,14 @@
       on a.id=c.album_id
     </select>
 
+    <select id="getOne" parameterType="int" resultMap="r1">
+      select a.*,c.id cid,c.title ctitle,c.size csize,c.duration cd,c.url curl,c.upload_date cdate
+      from (select * from cf_album where id=#{id}) a
+      left join cf_chapter c
+      on a.id=c.album_id
+
+    </select>
+
     <select id="exportAll" resultMap="r1">
       select a.*,c.id cid,c.title ctitle,c.size csize,c.duration cd,c.url curl,c.upload_date cdate
       from (select * from cf_album) a

@@ -50,6 +50,7 @@ public class DemoApplicationTests {
     @Autowired
     FastFileStorageClient fastFileStorageClient;
 
+
     @Test
     public void testGoEasy() {
         GoEasy goEasy = new GoEasy("http://rest-hangzhou.goeasy.io", "BC-6672cd4d416c4980b3921e3f24d341cd");
