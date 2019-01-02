@@ -53,10 +53,10 @@ public class BannerController {
 
     @RequestMapping("/addOne")
     public String addOne(Banner banner, MultipartFile img, HttpSession session) throws Exception {
-        //String imgName = System.currentTimeMillis() + img.getOriginalFilename();
-        /*String realPath = session.getServletContext().getRealPath("/img");
+        //String imgName = System.currentTimeMillis() + imgPath.getOriginalFilename();
+        /*String realPath = session.getServletContext().getRealPath("/imgPath");
         File to = new File(realPath + "/" + imgName);
-        img.transferTo(to);*/
+        imgPath.transferTo(to);*/
         String extension = FilenameUtils.getExtension(img.getOriginalFilename());
         StorePath storePath = fastFileStorageClient.uploadFile(img.getInputStream(), img.getSize(), extension, null);
         banner.setImg_path(storePath.getFullPath());
@@ -66,7 +66,7 @@ public class BannerController {
 
     @RequestMapping("/export")
     public void export(HttpSession session, HttpServletResponse response) {
-        String filePath = session.getServletContext().getRealPath("/img");
+        String filePath = session.getServletContext().getRealPath("/imgPath");
         List<Banner> list = bannerService.exportAll();
         for (Banner banner : list) {
             // banner.setImg_path(filePath + "/" + banner.getImg_path());

@@ -2,9 +2,12 @@ package com.zhao.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.zhao.entity.Album;
 import com.zhao.entity.AlbumDTO;
 import com.zhao.service.AlbumService;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -30,6 +32,8 @@ public class AlbumController {
     @Autowired
     private AlbumService albumService;
 
+    @Autowired
+    private FastFileStorageClient fastFileStorageClient;
 
     @RequestMapping("/queryPage")
     public AlbumDTO queryPage(int page, int rows) {
@@ -45,11 +49,14 @@ public class AlbumController {
     @RequestMapping("/addOne")
     public String addOne(Album album, MultipartFile img, HttpSession session) throws Exception {
 
-        String imgName = System.currentTimeMillis() + img.getOriginalFilename();
+       /* String imgName = System.currentTimeMillis() + imgPath.getOriginalFilename();
+
         String realPath = session.getServletContext().getRealPath("/album/image");
         File to = new File(realPath + "/" + imgName);
-        img.transferTo(to);
-        album.setCoverImg(imgName);
+        imgPath.transferTo(to);*/
+        String extension = FilenameUtils.getExtension(img.getOriginalFilename());
+        StorePath storePath = fastFileStorageClient.uploadFile(img.getInputStream(), img.getSize(), extension, null);
+        album.setCoverImg(storePath.getFullPath());
         albumService.addOne(album);
         return "添加成功！";
     }

@@ -295,20 +295,20 @@ function removeCookie(name, options) {
                             var iconUrl;
                             var title;
                             if (fileInfo.isDirectory) {
-                                iconUrl = "/ShopDemo/back/img/folder_icon.gif";
+                                iconUrl = "/ShopDemo/back/imgPath/folder_icon.gif";
                                 title = fileInfo.name;
                             } else if (new RegExp("^\\S.*\\.(jpg|jpeg|bmp|gif|png)$", "i").test(fileInfo.name)) {
                                 iconUrl = fileInfo.url;
                                 title = fileInfo.name + " (" + Math.ceil(fileInfo.size / 1024) + "KB, " + new Date(fileInfo.lastModified).toLocaleString() + ")";
                             } else {
-                                iconUrl = "/shop/back/img/file_icon.gif";
+                                iconUrl = "/shop/back/imgPath/file_icon.gif";
                                 title = fileInfo.name + " (" + Math.ceil(fileInfo.size / 1024) + "KB, " + new Date(fileInfo.lastModified).toLocaleString() + ")";
                             }
-                            browserListHtml += '<div class="browserItem"><img src="' + iconUrl + '" title="' + title + '" url="' + fileInfo.url + '" isDirectory="' + fileInfo.isDirectory + '" \/><div>' + fileInfo.name + '<\/div><\/div>';
+                            browserListHtml += '<div class="browserItem"><imgPath src="' + iconUrl + '" title="' + title + '" url="' + fileInfo.url + '" isDirectory="' + fileInfo.isDirectory + '" \/><div>' + fileInfo.name + '<\/div><\/div>';
                         });
                         $browserList.html(browserListHtml);
 
-                        $browserList.find("img").bind("click", function () {
+                        $browserList.find("imgPath").bind("click", function () {
                             var $this = $(this);
                             var isDirectory = $this.attr("isDirectory");
                             if (isDirectory == "true") {

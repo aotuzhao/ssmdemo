@@ -16,7 +16,7 @@
                     //打开dialog
                     $("#album_dialog").dialog("open")
                     $("#album_from").form("load", row)
-                    $("#coverImg").prop("src", "${pageContext.request.contextPath}/album/image/" + row.coverImg)
+                    $("#coverImg").prop("src", "http://192.168.110.138/" + row.coverImg)
                 }
             }
             /* var node = $("#album").treegrid("getSelected");

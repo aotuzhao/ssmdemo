@@ -4,7 +4,7 @@
 
         $.get("${pageContext.request.contextPath}/album/queryOne", "id=" +${param.id}, function (album) {
             $("#album_from").form("load", album);
-            $("#coverImg").prop("src", "${pageContext.request.contextPath}/album/image/" + album.coverImg);
+            $("#coverImg").prop("src", "http://192.168.110.138/" + album.coverImg);
 
         })
     })
