@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta content="always" name="referrer">
-    <title>百度一下，你就知道</title>
+    <title>百知一下，你就知道</title>
 
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/IconExtension.css">
@@ -28,10 +28,9 @@
                     striped: true,
                     fit: true,
                     fitColumns: true,
-                    // pagination: true,
-                    // toolbar: toolbar,
-                    // pageList: [3, 5, 7],
-                    // pageSize: 3,
+                    pagination: true,
+                    pageList: [3, 5, 7],
+                    pageSize: 3,
                     columns: [[
                         {field: 'name', title: '名字', width: 100},
                         {field: 'price', title: '价格', width: 80},

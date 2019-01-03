@@ -42,7 +42,7 @@ public class LuceneController {
 
     @RequestMapping("search")
     @ResponseBody
-    public List<Product> search(String keywords) {
+    public List<Product> search(String keywords, int page, int rows) {
         List<Product> list = luceneService.search(keywords);
         return list;
     }
